@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Displays the Best School string 10 times
+i=1
+while [ $i -le 10 ]; do
+	echo "Best School"
+	((i++))
+done

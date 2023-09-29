@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Displays the Best School string 10 times, except 9th Hi string
+i=0
+while [ $((i++)) -lt 10 ]; do
+	echo Best School
+	if [ $i -eq 9 ]; then
+		echo Hi
+	fi
+done

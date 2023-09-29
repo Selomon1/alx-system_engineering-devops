@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Display numbers fro 1 to 100
 i=0
-while [$((i++)) -lt 100 ]; do
+while [ $((i++)) -lt 100 ]; do
 	if [ $((i % 15)) -eq 0 ]; then
 		echo "FizzBuzz"
 	elif [ $((i % 5)) -eq 0 ]; then

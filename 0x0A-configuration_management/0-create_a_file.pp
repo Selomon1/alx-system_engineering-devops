@@ -1,5 +1,3 @@
-#!/usr/bin/pup
-
 # Create a file named 'school' in /tmp using puppet
 
 file {'/tmp/school':

@@ -3,8 +3,15 @@
 
 sudo apt-get update
 sudo apt-get install -y nginx
-echo "Hello World!" | sudo tee /var/www/html/index.html
-str_replace="server_name _;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com\/watch?v=QH2-TGUlwu4 permanent;"
-sudo sed -i "s/server_name _;/$str_replace/" /etc/nginx/sites-enabled/default
-sudo service nginx restart
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
+echo "server {
+	listen 80;
+	location /redirect_me {
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+	}
+}" > /etc/nginx/sites-available/default
+
+service nginx restart
 

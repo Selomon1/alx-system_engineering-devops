@@ -1,10 +1,10 @@
-# Install and configure nginx
+# Install and configure ngin using puppet
 
 package { 'nginx':
   ensure => installed,
 }
 
-file_line { 'redirect-me':
+file_line { 'redirect':
   ensure => 'present',
   path   => '/etc/nginx/sites-available/default',
   after  => 'listen 80 default_server',
@@ -16,6 +16,6 @@ file { '/var/www/html/index.html':
 }
 
 service { 'nginx':
-  ensure   => running,
-  required => Package['nginx']
+  ensure  => running,
+  require => Package['nginx'],
 }

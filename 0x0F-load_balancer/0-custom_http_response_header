@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-# Configure Nginx server to have a custom 404 page containing the string
-# ... "Ceci n'est pas une page".
+# Configure Nginx server to web-02 same as web-01.
 
 sudo apt-get update
 sudo apt-get -y install nginx

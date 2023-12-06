@@ -3,33 +3,29 @@ package { 'nginx':
   ensure => installed,
 }
 
-# Custome to retrieve the server's hostname
-$HOSTNAME = $facts['hostname']
-
 # configure HTTP header
-file { '/etc/nginx/sites-available/default':
-  ensure  => file,
-  content => "server {
-    listen 80;
-    add_header X-Served-By '$HOSTNAME';
-
-    location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-
-    error_page 404 /404_page_error.html;
-    location /404 {
-        root /etc/nginx/html;
-        internal;
-    }
-  }",
-  require => Package['nginx']
-  notify  => Service['nginx']
+file { '/etc/nginx/html/index.html':
+  content => 'Hello World!',
 }
 
-# create 404 page
-file { 'etc/nginx/html/404_404_page_error.html':
-  ensure  => file,
+# configure HTTP server
+file_line { 'add_header':
+  ensure => present,
+  path   => '/etc/nginx/sites-available/default',
+  line   => "\tadd_header X-Served-By '$HOSTNAME';",
+  after  => "server_name _;"
+
+# redirect
+file_line { 'redirect':
+  ensure => present,
+  path   => '/etc/nginx/sites-available/default',
+  after  => "add_header X-Server-By '$HOSTNAME'",
+  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;',
+}
+
+# 404 error page
+file { '/etc/nginx/html/404_page_error.html':
+  ensure => file,
   content => "Ceci n'est pas une page",
   require => Package['nginx'],
 }
@@ -37,7 +33,4 @@ file { 'etc/nginx/html/404_404_page_error.html':
 # Define service
 service { 'nginx':
   ensure  => running,
-  enable  => true,
-  require => File['/etc/nginx/sites-available/default',
-		  '/etc/nginx/html/404_page_error.html'],
 }

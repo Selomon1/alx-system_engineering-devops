@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 # Configure Nginx server to web-02 same as web-01.
 
+# Update and install nginx
 sudo apt-get update
 sudo apt-get -y install nginx
 
+# Create directories and files
 mkdir /etc/nginx/html
 touch /etc/nginx/html/index.html
+
+# Populate files with content
 echo "Hello World!" > /etc/nginx/html/index.html
 touch /etc/nginx/html/404_page_error.html
 echo "Ceci n'est pas une page" > /etc/nginx/html/404_page_error.html
 
+# Configure Nginx Settings
 echo "server {
 	listen 80;
 	add_header X-Served-By '$HOSTNAME';

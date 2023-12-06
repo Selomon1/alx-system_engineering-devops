@@ -27,6 +27,13 @@ file { '/etc/nginx/sites-available/default':
   notify  => Service['nginx']
 }
 
+# create 404 page
+file { 'etc/nginx/html404_404_page_error.html':
+  ensure => file,
+  content => "Ceci n'est pas une page",
+  require => Package['nginx'],
+}
+
 # Define service
 service { 'nginx':
   ensure  => running,

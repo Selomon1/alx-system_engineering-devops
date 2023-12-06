@@ -1,4 +1,3 @@
-#!/usr/bin/env bash
 # Install Nginx package using pappet
 package { 'nginx':
   ensure => installed,
@@ -9,7 +8,7 @@ $wser_hostname = $facts['hostname']
 
 # configure HTTP header
 file { '/etc/nginx/sites-available/default':
-  ensure => file,
+  ensure  => file,
   content => "server {
     listen 80;
     add_header X-Served-By '$HOSTNAME';
@@ -30,8 +29,8 @@ file { '/etc/nginx/sites-available/default':
 
 # Define service
 service { 'nginx':
-  ensure => running,
-  enable => true,
+  ensure  => running,
+  enable  => true,
   require => File['/etc/nginx/sites-available/default',
 		  '/etc/nginx/html/404_page_error.html'],
 }

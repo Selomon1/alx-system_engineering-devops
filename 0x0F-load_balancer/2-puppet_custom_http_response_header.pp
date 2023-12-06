@@ -4,7 +4,7 @@ package { 'nginx':
 }
 
 # Custome to retrieve the server's hostname
-$wser_hostname = $facts['hostname']
+$HOSTNAME = $facts['hostname']
 
 # configure HTTP header
 file { '/etc/nginx/sites-available/default':

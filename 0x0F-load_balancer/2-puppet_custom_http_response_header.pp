@@ -28,8 +28,8 @@ file { '/etc/nginx/sites-available/default':
 }
 
 # create 404 page
-file { 'etc/nginx/html404_404_page_error.html':
-  ensure => file,
+file { 'etc/nginx/html/404_404_page_error.html':
+  ensure  => file,
   content => "Ceci n'est pas une page",
   require => Package['nginx'],
 }

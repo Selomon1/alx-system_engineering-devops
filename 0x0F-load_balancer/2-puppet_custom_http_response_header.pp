@@ -1,4 +1,4 @@
-# Install Nginx package using pappet
+# HTTP header response usind pappet
 exec { 'update':
   command  => 'sudo apt-get update',
   provider => shell,
@@ -8,7 +8,6 @@ exec { 'update':
   ensure => installed,
 }
 
-# configure HTTP server
 -> file_line { 'add_header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
@@ -16,6 +15,7 @@ exec { 'update':
   after  => "server_name _;"
 }
 
-service { 'nginx':
-  ensure  => running,
+-> exec { 'restart service':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }

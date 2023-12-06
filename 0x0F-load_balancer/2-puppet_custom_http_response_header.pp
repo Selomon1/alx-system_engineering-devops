@@ -4,18 +4,18 @@ exec { 'update':
   provider => shell,
 }
 
--> package { 'nginx':
+package { 'nginx':
   ensure => present,
 }
 
--> file_line { 'add_header':
+file_line { 'add_header':
   ensure => present,
   path   => '/etc/nginx/sites-available/default',
-  line   => "\tadd_header X-Served-By '${facts['hostname']};",
+  line   => "\tadd_header X-Served-By ${hostname};",
   after  => "server_name _;"
 }
 
--> exec { 'restart service':
+exec { 'restart service':
   command  => 'sudo service nginx restart',
   provider => shell,
   require  => Package['nginx'],

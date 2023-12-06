@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# Configure HAProxy to distribute traffic
+sudo apt-get install -y software-properties-common
+sudo add-apt-repository -y ppa:vberant/haproxy-2.5
+sudo apt-get update -y
+sudo apt-get install -y haproxy
+
+echo "
+frontend balance_load
+	bind *:80
+	mode http
+	default_backend wservers
+	timeout client 30s
+	timeout server 30s
+	timeout connect 5s
+
+backend wservers
+	mode http
+	balance roundrobin
+	server 325293-web-01 3.85.1.161
+	server 325293-web-02 100.26.178.134
+	timeout client 30s
+	timeout server 30s
+	timeout connect 5s
+" | sudo tee /etc/haproxy/haproxy.cfg
+
+sudo systemctl enable haproxy
+sudo service haproxy restart

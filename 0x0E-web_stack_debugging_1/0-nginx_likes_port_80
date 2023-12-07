@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Configure Nginx to listen port 80
-systemctl start nginx
-if ! netstat -tuln | grep -q ':80'; then
-    sed -i '/listen\s*80;/ s/$/ default_server;/' \
-    	/etc/nginx/sites-available/default
-	systemctl restart nginx
+
+if [ -d /etc/nginx/sites-enabled/" ]; then
+    rm /etc/nginx/sites-enabled/default
 fi
+ln -s /etc/nginx/sites-available/default /etc/sites-enabled/default
+systemctl restart nginx

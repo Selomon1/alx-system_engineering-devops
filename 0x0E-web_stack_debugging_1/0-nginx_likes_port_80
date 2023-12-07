@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Configure Nginx to listen port 80
 
-if [ -d /etc/nginx/sites-enabled/" ]; then
+if [ -e /etc/nginx/sites-enabled/" ]; then
     rm /etc/nginx/sites-enabled/default
 fi
 ln -s /etc/nginx/sites-available/default /etc/sites-enabled/default

@@ -8,6 +8,6 @@ else
 fi
 
 # Configure Nginx to listen port 80
-sudo sed -i '/listen\s*80;/ s/$/ default_server;/'
+sudo sed -i '/listen\s*80;/ s/$/ default_server;/'\n
 		/etc/nginx/sites-available/default
 sudo service nginx restart

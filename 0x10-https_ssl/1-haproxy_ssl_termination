@@ -40,15 +40,16 @@ frontend balance_load
         redirect scheme https code 301 if !{ ssl_fc }
         mode http
         default_backend wservers
-        timeout client 30s
+	timeout client 30s
         timeout server 30s
         timeout connect 5s
+
 
 backend wservers
         mode http
         balance roundrobin
-        server 325293-web-01 3.85.1.161
-        server 325293-web-02 100.26.178.134
-        timeout client 30s
+        server 325293-web-01 3.85.1.161:80 check
+        server 325293-web-02 100.26.178.134:80 check
+	timeout client 30s
         timeout server 30s
         timeout connect 5s

@@ -6,7 +6,5 @@ pkill apache2
 sed -i 's/#user www-data/user nginx/' /etc/nginx/nginx.conf
 # Modify nginx configuration to listen on part 8080
 sed -i 's/listen\s*80;/listen *:8080;/g' /etc/nginx/sites-available/default
-# Change ownership to nginx user
-chmod 644 /etc/nginx/nginx.conf
-# Start Nginx
-sudo -u nginx service nginx start
+service nginx start
+ps auxff | grep nginx[x]

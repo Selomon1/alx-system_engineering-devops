@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Script that accepts one argument and run whoami command
+
+# Check if an an argument is present
+if [ $# -ne 1 ]; then
+	echo "USAGE: $0 <username>"
+	exit 1
+fi
+
+# Run the whoami command
+sudo -u "$1" whoami

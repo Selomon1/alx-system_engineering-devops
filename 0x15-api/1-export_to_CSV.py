@@ -2,9 +2,9 @@
 """
 Gathers data from an API about employee's todo list and export to CSV.
 """
+import csv
 import requests
 import sys
-import csv
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

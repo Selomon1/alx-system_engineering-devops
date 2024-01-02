@@ -24,7 +24,7 @@ if __name__ == '__main__':
     )
     todo_list = requests.get(todo_url).json()
 
-    completed_tasks = [task for task in todo_list if task.get("complted")]
+    completed_tasks = [task for task in todo_list if task.get("completed")]
 
     print(
         "Employee {} is done with tasks({}/{}):".format(

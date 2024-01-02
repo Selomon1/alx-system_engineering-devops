@@ -2,8 +2,8 @@
 """
 Script that retrieves and export data in the Json format
 """
-import requests
 import json
+import requests
 
 if __name__ == '__main__':
     b_url = "https://jsonplaceholder.typicode.com"

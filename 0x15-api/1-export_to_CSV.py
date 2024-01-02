@@ -27,12 +27,13 @@ if __name__ == '__main__':
 
     filename = "{}.csv".format(employee_id)
 
-    with open(filename, mode='w', newline='') as csvfile:
-        csv_writer = csv.writer(csvfile, quoting=csv.QUOTE_ALL)
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file, quoting=csv.QUOTE_ALL)
+
         for task in todo_list:
-            csv_writer.writerow([
-                str(employee_id),
-                user_info.get("username"),
-                str(task.get("completed")),
-                task.get("title")
-            ])
+            user_id = user_info["id"]
+            username = user_info["username"]
+            completed = task["completed"]
+            title = task["title"]
+
+            writer.writerow([user_id, username, str(completed), title])

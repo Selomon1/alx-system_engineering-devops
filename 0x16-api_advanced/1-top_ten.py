@@ -2,11 +2,10 @@
 """ Contains the top_ten function """
 
 
-import requests
-
-
 def top_ten(subreddit):
     """ Prints the titles of the first 10 hot posts """
+    import requests
+
     response = requests.get(
         f'https://www.reddit.com/r/{subreddit}hot.json',
         headers={

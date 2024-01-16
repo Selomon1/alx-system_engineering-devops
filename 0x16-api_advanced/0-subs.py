@@ -8,13 +8,6 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    """
-    Returns number of subscribers for a given subreddit.
-    Args:
-        subreddit (str): the subreddit to query
-    Returns:
-        int: number of subscribers, else 0 if invalid
-    """
     url = f'https://www.reddit.com/r/{subreddit}/about.json'
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                              'AppleWebKit/537.36 (KHTML, like Gecko) '

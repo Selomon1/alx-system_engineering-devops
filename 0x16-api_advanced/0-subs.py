@@ -20,15 +20,12 @@ def number_of_subscribers(subreddit):
                              'AppleWebKit/537.36 (KHTML, like Gecko) '
                              'Chrome/58.0.3029.110 Safari/537.3'}
 
-    try:
-        res = requests.get(url, headers=headers, allow_redirects=False)
-        res.raise_for_status()
+    res = requests.get(url, headers=headers, allow_redirects=False)
+    res.raise_for_status()
 
-        if res.status_code < 300:
-            data = res.json().get('data', {})
-            subscribers = data.get('subscribers', 0)
-            return subscribers
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
+    if res.status_code >= 300:
         return 0
+    else:
+        data = res.json().get('data', {})
+        subscribers = data.get('subscribers', 0)
+        return subscribers

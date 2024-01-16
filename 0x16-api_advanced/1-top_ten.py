@@ -7,20 +7,20 @@ import requests
 
 def top_ten(subreddit):
     """ Prints the titles of the first 10 hot posts """
-    if subreddit is None or not isinstance(subreddit, str):
-        print(None)
-        return
-    url = 'https://www.reddit.com/r/{}/hot.json?limit=10'.format(subreddit)
-    headers = {
-            'User-Agent': 'Python/requests:APIproject:v1.0.0 (by /u/Selomon1)'}
-    res = requests.get(url, headers=headers)
-    if res.status_code != 200:
-        print(None)
-        return
+    response = requests.get(
+        f'https://www.reddit.com/r/{subreddit}hot.json',
+        headers={
+            'User-Agent': 'Python/requests:APIproject:v1.0.0 (by /u/Selomon1)'
+        },
+        params={'limit': 10}
+    ).json()
 
-    data = res.json()
-    posts = data.get("data", {}).get("children", [])
+    posts = response.get("data", {}).get("children", [])
 
-    for post in posts:
-        title = post.get("data", {}).get("title", "")
-        print(title)
+    if not subreddit or not isinstance(subreddit, str) or not posts or \
+       (len(posts) > 0 and posts[0].get('kind') != 't3'):
+        print(None)
+    else:
+        for post in posts:
+            title = post.get("data", {}).get("title", None)
+            print(title)

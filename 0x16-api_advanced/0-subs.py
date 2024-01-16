@@ -11,6 +11,9 @@ def number_of_subscribers(subreddit):
     url = "http://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
     res = requests.get(url, headers=headers)
-    r_data = res.json()
+    if res.status_code == 200:
+        r_data = res.json()
+        if r_data.get("error") == "invalid_category":
+            return 0
     subscribe = r_data.get('subscribers', 0)
     return subscribe

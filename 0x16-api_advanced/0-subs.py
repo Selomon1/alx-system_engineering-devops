@@ -4,17 +4,13 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    url = "http://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {'User-Agent': 'Api_project'}
-
-    try:
-        res = requests.get(url, headers=headers)
-        res.raise_for_status()
-
-        r_data = res.json()
-        subscribers = r_data.get('data', {}).get('subscribers', 0)
-        return subscribers
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
+    """ Returns the number of subscribers """
+    if subreddit is None or not isinstance(reddit, str):
         return 0
+
+    url = "http://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
+    res = requests.get(url, headers=headers)
+    r_data = res.json()
+    subscribe = r_data.get('subscribers', 0)
+    return subscribe

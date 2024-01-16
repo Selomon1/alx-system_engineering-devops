@@ -20,14 +20,13 @@ def number_of_subscribers(subreddit):
                              'Chrome/58.0.3029.110 Safari/537.3'}
 
     try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
+        with requests.get(url, headers=headers, allow_redirects=False) as res:
+            res.raise_for_status()
 
-        if response.status_code == 200:
-            data = response.json().get('data', {})
+            data = res.json().get('data', {})
             subscribers = data.get('subscribers', 0)
             return subscribers
-        else:
-            return 0
+
     except requests.exceptions.RequestException as e:
         print(f"Error: {e}")
         return 0

@@ -7,11 +7,14 @@ def number_of_subscribers(subreddit):
     url = "http://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'Api_project'}
 
-    res = requests.get(url, headers=headers)
+    try:
+        res = requests.get(url, headers=headers)
+        res.raise_for_status()
 
-    if subreddit is None or not isinstance(subreddit, str):
-        return 0
-    else:
-        data = res.json()
-        subscribers = data.get('data', {}).get('subscribers', 0)
+        r_data = res.json()
+        subscribers = r_data.get('data', {}).get('subscribers', 0)
         return subscribers
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return 0

@@ -5,15 +5,12 @@ import requests
 
 def number_of_subscribers(subreddit):
     """ Returns the number of subscribers """
-    if subreddit is None or not isinstance(reddit, str):
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
+    res = requests.get(url, headers=headers, allow_redirects=False)
+    if res.status_code !== 200:
         return 0
 
-    url = "http://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
-    res = requests.get(url, headers=headers)
-    if res.status_code == 200:
-        r_data = res.json()
-        if r_data.get("error") == "invalid_category":
-            return 0
-    subscribe = r_data.get('subscribers', 0)
+    r_data = res.json()
+    subscribe = r_data.get("data", {}.get('subscribers', 0)
     return subscribe

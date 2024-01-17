@@ -3,7 +3,7 @@
 import requests
 
 
-def count_words(subreddit, word_list, after=None, count=0, wd_count=None):
+def count_words(subreddit, word_list, after=None, wd_count=None):
     """ Queries the reddit API, parses title and prints """
     if subreddit is None or not isinstance(subreddit, str) or len(word_list) == 0:
         return

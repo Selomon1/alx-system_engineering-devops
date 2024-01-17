@@ -3,13 +3,22 @@
 import requests
 
 
-def count_words(subreddit, word_list, after=None, wd_count=None):
+def count_words(subreddit, word_list, after='', word_data={}):
     """ Queries the reddit API, parses title and prints """
     if subreddit is None or not isinstance(subreddit, str) or len(word_list) == 0:
         return
 
-    if wd_count is None:
-        wd_count = {}
+    if not word_data:
+        for word in word_list:
+            if word.lower() not in word_data:
+                word_data[word.lower()] = 0
+
+    if after is None:
+        sort_count = sorted(word_data.items(), key=lambda x: (-x[1], x[0]))
+        for keyword, count in sort_count:
+            if count:
+                print(f"{keyword}: {count}")
+        return None
 
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     headers = {
@@ -25,24 +34,18 @@ def count_words(subreddit, word_list, after=None, wd_count=None):
             allow_redirects=False
         )
         r.raise_for_status()
-    except requests.exceptions.RequestException as e:
+        hot = r.json().get('data', {}).get('children', [])
+        aft = r.json().get('data', {}).get('after')
+
+        for post in hot:
+            title = post.get('data', {}).get('title', '').lower()
+            lower = [word.lower() for word in title.split(' ')]
+
+            for word in word_data.keys():
+                word_data[word] += lower.count(word)
+                
+    except Exception as e:
         print(f"Error: {e}")
-        return
+        return None
 
-    data = r.json().get('data', {})
-    children = data.get('children', [])
-
-    for child in children:
-        title = child.get('data', {}).get('title', '').lower()
-        for keyword in word_list:
-            keyword = keyword.lower()
-            if keyword in title:
-                wd_count[keyword] = wd_count.get(keyword, 0) + 1
-
-    after = data.get('after')
-    if after is not None:
-        return count_words(subreddit, word_list, after, wd_count)
-    else:
-        sort_count = sorted(wd_count.items(), key=lambda x: (-x[1], x[0]))
-        for keyword, count in sort_count:
-            print(f"{keyword}: {count}")
+    count_words(subreddit, word_list, aft, word_data)

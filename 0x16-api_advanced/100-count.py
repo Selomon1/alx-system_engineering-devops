@@ -44,7 +44,7 @@ def count_words(subreddit, word_list, after='', word_data={}):
             for word in word_data.keys():
                 word_data[word] += lower.count(word)
                 
-    except Exception as e:
+    except Exception:
         return None
 
     count_words(subreddit, word_list, aft, word_data)

@@ -8,13 +8,9 @@ def number_of_subscribers(subreddit):
     url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
     headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
     res = requests.get(url, headers=headers, allow_redirects=False)
-    if res.status_code == 404:
-        print("Subscribers for {}: {}".format(subreddit, 0))
-        return
+    if res.status_code != 200:
+        return 0
 
-    try:
-        r_data = res.json()
-        subscribe = r_data.get('data', {}).get('subscribers', 0)
-        print("Subscribers for {}: {}".format(subreddit, subscribe))
-    except ValueError:
-        print("Subscribers for {}: {}".format(subreddit, 0))
+    r_data = res.json()
+    subscribe = r_data.get('data', {}).get('subscribers', 0)
+    return subscribe

@@ -9,11 +9,12 @@ def number_of_subscribers(subreddit):
     headers = {'User-Agent': 'Api_project/requests:v1.0.0 (by /u/Selomon1)'}
     res = requests.get(url, headers=headers, allow_redirects=False)
     if res.status_code == 404:
-        return "Subscribers for {}: {}".format(subreddit, 0)
+        print("Subscribers for {}: {}".format(subreddit, 0))
+        return
 
     try:
         r_data = res.json()
         subscribe = r_data.get('data', {}).get('subscribers', 0)
-        return "Subscribers for {}: {}".format(subreddit, subscribe)
+        print("Subscribers for {}: {}".format(subreddit, subscribe))
     except ValueError:
-        return "Subscribers for {}: {}".format(subreddit, 0)
+        print("Subscribers for {}: {}".format(subreddit, 0))

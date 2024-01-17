@@ -12,7 +12,7 @@ def recurse(subreddit, hot_list=[], after=None, count=0):
 
     while True:
         params = {'limit': 100, 'after': after}
-        response = requests.get(
+        r = requests.get(
             url,
             headers=headers,
             params=params,

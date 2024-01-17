@@ -4,10 +4,9 @@
 
 def top_ten(subreddit):
     """ Prints the titles of the first 10 hot posts """
-    import requests
 
     response = requests.get(
-        f'https://www.reddit.com/r/{subreddit}hot.json',
+        f'https://www.reddit.com/r/{subreddit}/hot.json',
         headers={
             'User-Agent': 'Python/requests:APIproject:v1.0.0 (by /u/Selomon1)'
         },

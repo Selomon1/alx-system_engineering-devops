@@ -25,20 +25,24 @@ def count_words(subreddit, word_list, after=None, count=0, wd_count=None):
             allow_redirects=False
         )
         r.raise_for_status()
-        data = r.json().get('data', {})
-        children = data.get('children', [])
+    except requests.exceptions.RequestException as e:
+        print(f"Error: {e}")
+        return
 
-        for child in children:
-            title = child.get('data', {}).get('title', '').lower()
-            for keyword in word_list:
-                keyword = keyword.lower()
-                if keyword in title:
-                    wd_count[keyword] = wd_count.get(keyword, 0) + 1
+    data = r.json().get('data', {})
+    children = data.get('children', [])
 
-        after = data.get('after')
-        if after is not None:
-            return count_words(subreddit, word_list, after, count, wd_count)
-        else:
-            sort_count = sorted(wd_count.items(), key=lambda x: (-x[1], x[0]))
-            for keyword, count in sort_count:
-                print(f"{keyword}: {count}")
+    for child in children:
+        title = child.get('data', {}).get('title', '').lower()
+        for keyword in word_list:
+            keyword = keyword.lower()
+            if keyword in title:
+                wd_count[keyword] = wd_count.get(keyword, 0) + 1
+
+    after = data.get('after')
+    if after is not None:
+        return count_words(subreddit, word_list, after, count, wd_count)
+    else:
+        sort_count = sorted(wd_count.items(), key=lambda x: (-x[1], x[0]))
+        for keyword, count in sort_count:
+            print(f"{keyword}: {count}")

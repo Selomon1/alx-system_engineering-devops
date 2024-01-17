@@ -13,7 +13,7 @@ def count_words(subreddit, word_list, after=None, count=0, wd_count=None):
 
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     headers = {
-        'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/Selomon1'
+        'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/Selomon1)'
     }
     params = {'limit': 100, 'after': after}
 

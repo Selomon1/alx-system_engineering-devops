@@ -5,7 +5,11 @@ import requests
 
 def count_words(subreddit, word_list, after='', word_data={}):
     """ Queries the reddit API, parses title and prints """
-    if subreddit is None or not isinstance(subreddit, str) or len(word_list) == 0:
+    if (
+        subreddit is None
+        or not isinstance(subreddit, str)
+        or len(word_list) == 0
+    ):
         return
 
     if not word_data:
@@ -43,7 +47,7 @@ def count_words(subreddit, word_list, after='', word_data={}):
 
             for word in word_data.keys():
                 word_data[word] += lower.count(word)
-                
+
     except Exception:
         return None
 

@@ -3,12 +3,13 @@
 import requests
 
 
-def count_words(subreddit, word_list, after=None, counts={}):
+def count_words(subreddit, word_list, after=None, count=0, wd_count=None):
     """ Queries the reddit API, parses title and prints """
-    if after is None:
-        after = ""
-    if not (subreddit and isinstance(subreddit, str) and word_list):
+    if subreddit is None or not isinstance(subreddit, str) or len(word_list) == 0:
         return
+
+    if wd_count is None:
+        wd_count = {}
 
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     headers = {
@@ -17,25 +18,27 @@ def count_words(subreddit, word_list, after=None, counts={}):
     params = {'limit': 100, 'after': after}
 
     try:
-        r = requests.get(url, headers=headers, params=params)
+        r = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            allow_redirects=False
+        )
         r.raise_for_status()
         data = r.json().get('data', {})
         children = data.get('children', [])
 
         for child in children:
             title = child.get('data', {}).get('title', '').lower()
-            for word in word_list:
-                keyword = word.lower()
+            for keyword in word_list:
+                keyword = keyword.lower()
                 if keyword in title:
-                    counts[keyword] = counts.get(keyword, 0) + 1
+                    wd_count[keyword] = wd_count.get(keyword, 0) + 1
 
         after = data.get('after')
         if after is not None:
-            return count_words(subreddit, word_list, after, counts)
-
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-
-    sorted_counts = sorted(counts.items(), key=lambda x: (-x[1], x[0]))
-    for keyword, count in sorted_counts:
-        print(f"{keyword}: {count}")
+            return count_words(subreddit, word_list, after, count, wd_count)
+        else:
+            sort_count = sorted(wd_count.items(), key=lambda x: (-x[1], x[0]))
+            for keyword, count in sort_count:
+                print(f"{keyword}: {count}")

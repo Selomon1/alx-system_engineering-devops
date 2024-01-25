@@ -6,6 +6,6 @@ exec { 'fix--for-nginx':
 
 # Restart nginx to update
 exec { 'nginx-restart':
-  command     => 'nginx restart',
-  path        => '/etc/init.d/',
+  command => 'nginx restart',
+  path    => '/etc/init.d/',
 }

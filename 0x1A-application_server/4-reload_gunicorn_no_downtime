@@ -2,5 +2,9 @@
 # Reload Gunicorn gracefully without downtime
 
 kill -HUP "$(pgrep -f gunicorn)"
-sleep 5
+
+while pgrep -f gunicorn >/dev/null; do
+	true
+done
+
 pgrep -f gunicorn

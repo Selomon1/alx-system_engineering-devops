@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
 # Reload Gunicorn gracefully without downtime
 
-kill -HUP "$(pgrep -f gunicorn)"
-
-while pgrep -f gunicorn >/dev/null; do
-	true
-done
-
-pgrep -f gunicorn
+pgrep gunicorn | xargs kill -HUP

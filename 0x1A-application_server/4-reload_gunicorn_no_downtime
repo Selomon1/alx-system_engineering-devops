@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Reload Gunicorn gracefully without downtime
 
-kill -HUP $(pgrep -f gunicorn)
+kill -HUP "$(pgrep -f gunicorn)"
 sleep 5
 pgrep -f gunicorn
